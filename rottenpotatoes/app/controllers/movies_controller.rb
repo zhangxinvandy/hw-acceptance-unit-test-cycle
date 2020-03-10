@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
-
+  
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :release_date)
+    params.require(:movie).permit(:title, :rating, :description, :release_date, :director)
   end
 
   def show
@@ -14,17 +14,17 @@ class MoviesController < ApplicationController
     sort = params[:sort] || session[:sort]
     case sort
     when 'title'
-      ordering,@title_header = {:title => :asc}, 'bg-warning hilite'
+      ordering,@title_header = {:title => :asc}, 'hilite'
     when 'release_date'
-      ordering,@date_header = {:release_date => :asc}, 'bg-warning hilite'
+      ordering,@date_header = {:release_date => :asc}, 'hilite'
     end
     @all_ratings = Movie.all_ratings
     @selected_ratings = params[:ratings] || session[:ratings] || {}
-
+    
     if @selected_ratings == {}
       @selected_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
-
+    
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort
       session[:ratings] = @selected_ratings
@@ -32,6 +32,21 @@ class MoviesController < ApplicationController
     end
     @movies = Movie.where(rating: @selected_ratings.keys).order(ordering)
   end
+  
+  
+  def search_director
+    movie = Movie.find(params[:id])
+    
+    if movie.director.empty?
+      redirect_to movies_path
+      flash[:notice] = "'#{movie.title}' has no director info"
+    end
+    
+    # @movies = Movie.find(params[:id])
+    @movies = movie.same_director
+    redirect_to movies_path if @movies.empty?
+  end
+
 
   def new
     # default: render 'new' template
