@@ -1,0 +1,73 @@
+ec2-user:~/environment/hw-acceptance-unit-test-cycle/rottenpotatoes (master) $ rspec
+DEPRECATION WARNING: Sprockets method `register_engine` is deprecated.
+Please register a mime type using `register_mime_type` then
+use `register_compressor` or `register_transformer`.
+https://github.com/rails/sprockets/blob/master/guides/extending_sprockets.md#supporting-all-versions-of-sprockets-in-processors
+ (called from block (2 levels) in <class:Railtie> at /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/sass-rails-5.0.5/lib/sass/rails/railtie.rb:57)
+DEPRECATION WARNING: Sprockets method `register_engine` is deprecated.
+Please register a mime type using `register_mime_type` then
+use `register_compressor` or `register_transformer`.
+https://github.com/rails/sprockets/blob/master/guides/extending_sprockets.md#supporting-all-versions-of-sprockets-in-processors
+ (called from block (2 levels) in <class:Railtie> at /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/sass-rails-5.0.5/lib/sass/rails/railtie.rb:58)
+FFF...........F.
+
+Failures:
+
+  1) MoviesController Similar Movies Should be redirect to the home page with an error when can't find similar movies
+     Failure/Error: get :similar, id: movie.id , controller: "movies"
+     
+     ActionController::UrlGenerationError:
+       No route matches {:action=>"similar", :controller=>"movies", :id=>"2"}
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_dispatch/journey/formatter.rb:46:in `generate'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_dispatch/routing/route_set.rb:721:in `generate'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_dispatch/routing/route_set.rb:752:in `generate'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_dispatch/routing/route_set.rb:747:in `generate_extras'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_dispatch/routing/route_set.rb:742:in `extra_keys'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_controller/test_case.rb:210:in `assign_parameters'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_controller/test_case.rb:626:in `process'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_controller/test_case.rb:67:in `process'
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/actionpack-4.2.10/lib/action_controller/test_case.rb:514:in `get'
+     # ./spec/Controllers/movies_controller_spec.rb:16:in `block (3 levels) in <top (required)>'
+
+  2) MoviesController Similar Movies should call Movie.similar_movies
+     Failure/Error: expect(Movie).to receive(:samedirector).with("George Lucas")
+       Movie(id: integer, title: string, rating: string, description: text, release_date: datetime, created_at: datetime, updated_at: datetime, director: string) does not implement: samedirector
+     # ./spec/Controllers/movies_controller_spec.rb:21:in `block (3 levels) in <top (required)>'
+
+  3) MoviesController Similar Movies should assign similar movies if director exists
+     Failure/Error: Movie.stub(:samedirector).with('George Lucas').and_return(movies)
+       Movie(id: integer, title: string, rating: string, description: text, release_date: datetime, created_at: datetime, updated_at: datetime, director: string) does not implement: samedirector
+     # ./spec/Controllers/movies_controller_spec.rb:26:in `block (3 levels) in <top (required)>'
+
+  4) Movie.find_similar_movies director exists finds similar movies correctly
+     Failure/Error: expect(Movie.samedirector(@movie1.director).pluck(:title)).to eql(["Catch me if you can","Schindler's List"])
+     
+     NoMethodError:
+       undefined method `samedirector' for #<Class:0x0000000527f948>
+     # /home/ec2-user/.rvm/gems/ruby-2.4.0/gems/activerecord-4.2.10/lib/active_record/dynamic_matchers.rb:26:in `method_missing'
+     # ./spec/Models/movie_spec.rb:20:in `block (4 levels) in <top (required)>'
+
+Deprecation Warnings:
+
+Using `stub` from rspec-mocks' old `:should` syntax without explicitly enabling the syntax is deprecated. Use the new `:expect` syntax or explicitly enable `:should` instead. Called from /home/ec2-user/environment/hw-acceptance-unit-test-cycle/rottenpotatoes/spec/Controllers/movies_controller_spec.rb:26:in `block (3 levels) in <top (required)>'.
+
+
+If you need more of the backtrace for any of these deprecations to
+identify where to make the necessary changes, you can configure
+`config.raise_errors_for_deprecations!`, and it will turn the
+deprecation warnings into errors, giving you the full backtrace.
+
+1 deprecation warning total
+
+Finished in 0.1248 seconds (files took 1.64 seconds to load)
+16 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/Controllers/movies_controller_spec.rb:14 # MoviesController Similar Movies Should be redirect to the home page with an error when can't find similar movies
+rspec ./spec/Controllers/movies_controller_spec.rb:20 # MoviesController Similar Movies should call Movie.similar_movies
+rspec ./spec/Controllers/movies_controller_spec.rb:24 # MoviesController Similar Movies should assign similar movies if director exists
+rspec ./spec/Models/movie_spec.rb:19 # Movie.find_similar_movies director exists finds similar movies correctly
+
+Coverage report generated for Cucumber Features, RSpec to /home/ec2-user/environment/hw-acceptance-unit-test-cycle/rottenpotatoes/coverage. 54 / 55 LOC (98.18%) covered.
+SimpleCov failed with exit 1
